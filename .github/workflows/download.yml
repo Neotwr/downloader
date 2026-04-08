@@ -16,9 +16,15 @@ jobs:
           mkdir files
           curl -L -O --output-dir ./files "${{ github.event.inputs.app_name }}"
 
+      - name: Pegar o nome do arquivo
+        id: filename
+        run: |
+          $file = Get-ChildItem ./files | Select-Object -First 1
+          echo "name=$($file.Name)" >> $env:GITHUB_OUTPUT
+          
       - name: Upload com Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.inputs.app_name }}
+          name: ${{ steps.filename.outputs.name }}
           path: ./files/
           retention-days: 2
