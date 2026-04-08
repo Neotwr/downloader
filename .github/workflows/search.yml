@@ -1,0 +1,15 @@
+name: Search
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: "Nome do app para procurar"
+        required: true
+
+jobs:
+  search:
+    runs-on: windows-latest
+    steps:
+      - name: Procurar via winget
+        run: winget search "${{ github.event.inputs.app_name }}"
