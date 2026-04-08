@@ -4,8 +4,19 @@ on:
   workflow_dispatch:
     inputs:
       app_name:
-        description: "Nome do app para baixar"
+        description: "Link do download"
         required: true
+      extensao:
+        description: "Extensão do arquivo"
+        required: true
+        type: choice
+        options:
+          - msixbundle
+          - msix
+          - appx
+          - appxbundle
+          - exe
+          - msi
 
 jobs:
   download:
@@ -14,17 +25,11 @@ jobs:
       - name: Baixar do link
         run: |
           mkdir files
-          curl -L -O --output-dir ./files "${{ github.event.inputs.app_name }}"
-
-      - name: Pegar o nome do arquivo
-        id: filename
-        run: |
-          $file = Get-ChildItem ./files | Select-Object -First 1
-          echo "name=$($file.Name)" >> $env:GITHUB_OUTPUT
+          curl -L "${{ github.event.inputs.app_name }}" -o ./files/app.${{ github.event.inputs.extensao }}
           
       - name: Upload com Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.filename.outputs.name }}
+          name: meu-app
           path: ./files/
           retention-days: 2
