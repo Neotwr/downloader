@@ -14,13 +14,9 @@ jobs:
       - name: Baixar via winget
         run: |
           winget source reset --force
-          winget download "${{ github.event.inputs.app_name }}" ` 
-            --download-directory ./files `
-            --accept-source-agreements `
-            --accept-package-agreements `
-            --locale pt-BR
+          winget download "${{ github.event.inputs.app_name }}" --download-directory ./files --accept-source-agreements --accept-package-agreements --locale en-US
         env:
-          WINGET_REGION: BR
+          WINGET_REGION: US
 
       - name: Upload com Artifact
         uses: actions/upload-artifact@v4
