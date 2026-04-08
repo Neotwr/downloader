@@ -12,7 +12,9 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Baixar do link
-        run: curl -L "${{ github.event.inputs.app_name }}" -o ./files/app.msix
+        run: |
+          mkdir files
+          curl -L -O --output-dir ./files "${{ github.event.inputs.app_name }}"
 
       - name: Upload com Artifact
         uses: actions/upload-artifact@v4
