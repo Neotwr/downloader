@@ -12,7 +12,15 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Baixar via winget
-        run: winget download "${{ github.event.inputs.app_name }}" --accept-source-agreements --download-directory ./files
+        run: |
+          winget source reset --force
+          winget download "${{ github.event.inputs.app_name }}" ` 
+            --download-directory ./files `
+            --accept-source-agreements `
+            --accept-package-agreements `
+            --locale pt-BR
+        env:
+          WINGET_REGION: BR
 
       - name: Upload com Artifact
         uses: actions/upload-artifact@v4
