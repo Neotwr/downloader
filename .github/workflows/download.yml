@@ -1,0 +1,22 @@
+name: Download e Upload
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: "Nome do app para baixar"
+        required: true
+
+jobs:
+  download:
+    runs-on: windows-latest
+    steps:
+      - name: Baixar via winget
+        run: winget download "${{ github.event.inputs.app_name }}" --download-directory ./files
+
+      - name: Upload com Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.inputs.app_name }}
+          path: ./files/
+          retention-days: 2
