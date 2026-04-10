@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       app_name:
+        description: "Nome do arquivo"
+        required: false
+      app_link:
         description: "Link do download"
         required: true
       extensao:
@@ -17,6 +20,7 @@ on:
           - appxbundle
           - exe
           - msi
+          - rspak
 
 jobs:
   download:
@@ -25,11 +29,11 @@ jobs:
       - name: Baixar do link
         run: |
           mkdir files
-          curl -L "${{ github.event.inputs.app_name }}" -o ./files/app.${{ github.event.inputs.extensao }}
+          curl -L "${{ github.event.inputs.app_link }}" -o ./files/app.${{ github.event.inputs.extensao }}
           
       - name: Upload com Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: meu-app
+          name: ${{ github.event.inputs.app_name && github.event.inputs.app_name || 'meu-app' }}
           path: ./files/
           retention-days: 2
