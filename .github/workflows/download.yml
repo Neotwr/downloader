@@ -21,6 +21,9 @@ on:
           - exe
           - msi
           - rspak
+          - zip
+          - rar
+          - 7z
 
 jobs:
   download:
