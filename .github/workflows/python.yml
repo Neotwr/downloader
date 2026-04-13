@@ -1,7 +1,11 @@
-name: python bibliotecas
+name: Python bibliotecas
 
 on:
   workflow_dispatch:
+    inputs:
+      package:
+        description: "Nome da bibliota - para mais de uma colocar apenas um espaço entre o nome delas"
+        required: true
 
 jobs:
   download:
@@ -9,8 +13,8 @@ jobs:
     steps:
       - name: Baixar biblioteca
         run: |
-          mkdir files
-          pip download numpy pandas matplotlib seaborn scikit-learn -d ./files/packages --platform win_amd64 --python-version 314 --implementation cp --abi cp314 --only-binary=:all:
+          mkdir packages
+          pip download ${{ github.event.inputs.package }} -d ./packages --platform win_amd64 --python-version 314 --implementation cp --abi cp314 --only-binary=:all:
 
       - name: Upload com Artifact
         uses: actions/upload-artifact@v4
