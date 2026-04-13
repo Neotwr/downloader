@@ -1,4 +1,4 @@
-name: Python bibliotecas
+name: Bibliotecas python
 
 on:
   workflow_dispatch:
