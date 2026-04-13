@@ -1,4 +1,4 @@
-name: Winget search
+name: winget search
 
 on:
   workflow_dispatch:
