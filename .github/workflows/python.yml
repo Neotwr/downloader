@@ -10,8 +10,14 @@ jobs:
       - name: Baixar biblioteca
         run: |
           mkdir files
-          pip download numpy pandas matplotlib seaborn sktlearn -d ./files/packages
-          
+          pip download numpy pandas matplotlib seaborn scikit-learn \
+          --dest ./files/packages \
+          --platform win_amd64 \
+          --python-version 314 \
+          --implementation cp \
+          --abi cp314 \
+          --only-binary=:all:-d
+
       - name: Upload com Artifact
         uses: actions/upload-artifact@v4
         with:
