@@ -1,0 +1,20 @@
+name: python bibliotecas
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: windows-latest
+    steps:
+      - name: Baixar biblioteca
+        run: |
+          mkdir files
+          pip download numpy pandas matplotlib seaborn sktlearn -d ./files/packages
+          
+      - name: Upload com Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-packages
+          path: ./files/
+          retention-days: 2
