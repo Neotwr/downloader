@@ -1,4 +1,4 @@
-name: Download e Upload
+name: winget download
 
 on:
   workflow_dispatch:
