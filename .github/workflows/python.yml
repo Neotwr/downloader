@@ -10,7 +10,7 @@ jobs:
       - name: Baixar biblioteca
         run: |
           mkdir files
-          pip download numpy pandas matplotlib seaborn scikit-learn -d ./files/packages --platform win_amd64 --python-version 314 --implementation cp --abi cp314 --only-binary=:all:-d
+          pip download numpy pandas matplotlib seaborn scikit-learn -d ./files/packages --platform win_amd64 --python-version 314 --implementation cp --abi cp314 --only-binary=:all:
 
       - name: Upload com Artifact
         uses: actions/upload-artifact@v4
