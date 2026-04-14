@@ -7,6 +7,8 @@ on:
         description: "Nome da bibliota - para mais de uma colocar apenas um espaço entre o nome delas"
         required: true
 
+run-name: Biblioteca: ${{ github.event.inputs.package }}
+
 jobs:
   download:
     runs-on: windows-latest
