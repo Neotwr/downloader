@@ -11,7 +11,7 @@ Os workflows localizados em `.github/workflows` utilizam a largura de banda e o 
 1. Vá até a aba **Actions** no topo do repositório.
 2. No menu à esquerda, selecione o workflow que deseja executar.
 3. Clique no botão **Run workflow**.
-4. Se o workflow solicitar parâmetros (como URLs), preencha-os e clique em **Run workflow**.
+4. Preencha os parêmetros conforme for solicitado e clique em **Run workflow**.
 
 ---
 
