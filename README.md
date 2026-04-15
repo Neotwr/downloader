@@ -16,5 +16,6 @@ Os workflows localizados em `.github/workflows` utilizam a largura de banda e o 
 ---
 
 ### Notas
+
 *   Este é um repositório de utilidade pessoal.
 *   Os arquivos baixados geralmente ficam disponíveis nos **Artifacts** da execução ou são enviados para destinos externos, dependendo da configuração do `.yml`.
