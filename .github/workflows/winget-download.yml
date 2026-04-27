@@ -17,7 +17,7 @@ jobs:
       - name: Baixar via winget
         run: |
           winget source reset --force
-          winget download "${{ github.event.inputs.app_name }}" --download-directory ./files --accept-source-agreements --accept-package-agreements --locale pt-BR
+          winget download "${{ github.event.inputs.app_name }}" --download-directory ./files --accept-source-agreements --accept-package-agreements --locale en-US
         env:
           WINGET_REGION: US
 
