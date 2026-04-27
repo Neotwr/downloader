@@ -1,0 +1,29 @@
+name: Winget download
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: "Nome do app para baixar"
+        required: true
+
+run-name: >
+  Winget: ${{ github.event.inputs.app_name }}
+
+jobs:
+  download:
+    runs-on: windows-latest
+    steps:
+      - name: Baixar via winget
+        run: |
+          winget source reset --force
+          winget download "${{ github.event.inputs.app_name }}" --download-directory ./files --accept-source-agreements --accept-package-agreements --locale pt-BR
+        env:
+          WINGET_REGION: US
+
+      - name: Upload com Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.inputs.app_name }}
+          path: ./files/
+          retention-days: 2
