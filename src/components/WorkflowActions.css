@@ -1,0 +1,238 @@
+/* Run button */
+.wt-btn-run {
+  width: 100%;
+  height: 44px;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--sans);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition:
+    opacity 0.15s,
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+
+/* Brilho interno no botão */
+.wt-btn-run::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent);
+  pointer-events: none;
+}
+
+.wt-btn-run:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+}
+
+.wt-btn-run:active:not(:disabled) {
+  transform: scale(0.99) translateY(0);
+  box-shadow: none;
+}
+
+.wt-btn-run:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.wt-btn-arrow {
+  display: inline-block;
+  transition: transform 0.2s;
+  font-style: normal;
+}
+
+.wt-btn-run:hover:not(:disabled) .wt-btn-arrow {
+  transform: translateX(3px);
+}
+
+/* Spinner inside button */
+.wt-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: wt-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* Loading status row */
+.wt-status-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1.25rem;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.wt-loader {
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid var(--border-hover);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: wt-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.wt-status-msg {
+  flex: 1;
+}
+
+/* Badges */
+.wt-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.wt-badge-running {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
+
+.wt-badge-done {
+  background: var(--green-bg);
+  color: var(--green);
+  border: 1px solid var(--green-border);
+}
+
+/* Result card */
+.wt-result-card {
+  margin-top: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.wt-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.wt-result-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text);
+}
+
+.wt-result-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wt-result-url {
+  font-size: 12.5px;
+  font-family: var(--mono);
+  color: var(--accent);
+  text-decoration: none;
+  word-break: break-all;
+  flex: 1;
+  opacity: 0.85;
+  transition: opacity 0.15s;
+}
+
+.wt-result-url:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.wt-copy-btn,
+.wt-reset-btn {
+  flex-shrink: 0;
+  height: 28px;
+  padding: 0 11px;
+  font-size: 12px;
+  background: transparent;
+  border: 1px solid var(--border-hover);
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--text);
+  font-family: var(--sans);
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.wt-copy-btn:hover,
+.wt-reset-btn:hover {
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+.wt-copy-btn {
+  margin-bottom: -35px;
+  position: relative;
+  z-index: 2;
+}
+
+.wt-result-meta {
+  font-size: 11.5px;
+  color: var(--text);
+  opacity: 0.4;
+  margin-top: 8px;
+  font-family: var(--mono);
+}
+
+/* Error card */
+.wt-error-card {
+  margin-top: 1.25rem;
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 13px;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wt-error-dismiss {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--red);
+  font-size: 14px;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 0.12s;
+}
+
+.wt-error-dismiss:hover {
+  opacity: 1;
+}
+
+@keyframes wt-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

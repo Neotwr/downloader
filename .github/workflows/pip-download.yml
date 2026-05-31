@@ -1,0 +1,27 @@
+name: bibliotecas python
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "Nome da bibliota - para mais de uma colocar apenas um espaço entre o nome delas"
+        required: true
+
+run-name: >
+  Biblioteca: ${{ github.event.inputs.package }}
+
+jobs:
+  download:
+    runs-on: windows-latest
+    steps:
+      - name: Baixar biblioteca
+        run: |
+          mkdir packages
+          pip download ${{ github.event.inputs.package }} -d ./packages --platform win_amd64 --python-version 314 --implementation cp --abi cp314 --only-binary=:all:
+
+      - name: Upload com Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-packages-${{ github.run_number }}
+          path: ./packages/
+          retention-days: 1

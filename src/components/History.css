@@ -1,0 +1,132 @@
+/* card do histórico */
+.container.history {
+  width: 85%;
+  height: auto;
+  background: linear-gradient(
+    360deg,
+    rgba(24, 46, 245, 0.147),
+    rgba(70, 55, 86, 0.169)
+  );
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* titulo */
+.title-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  padding: 0 13px;
+}
+
+.title {
+  text-align: center;
+  padding: 8px;
+  text-shadow: 0 4px 18px rgba(255, 255, 255, 0.35);
+  width: 90%;
+}
+
+/* botao de limpar o histórico */
+.btn-title {
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  width: 6%;
+  text-align: center;
+}
+
+a .btn {
+  stroke: #505050;
+  transition: stroke 0.3s ease;
+}
+
+a .btn:hover {
+  stroke: #ff4d4d;
+  transform: scale(1.08);
+}
+
+/* item do historico */
+.card-history {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  backdrop-filter: blur(12px);
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.data {
+  font-size: 11px;
+  color: var(--text);
+  opacity: 0.6;
+}
+
+.nome {
+  font-size: 13px;
+  color: var(--text-h);
+  font-family: var(--mono);
+  text-decoration: none;
+}
+
+.nome:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+
+.nome.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.icone-download {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.icone-download.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+a .btn-down {
+  width: 18px;
+  height: auto;
+  stroke: #5a37d7;
+  transition: transform 0.3s ease;
+}
+
+a .btn-down:hover {
+  transform: scale(1.05);
+}
+
+/* Spinner inside button */
+.spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: wt-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes wt-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
