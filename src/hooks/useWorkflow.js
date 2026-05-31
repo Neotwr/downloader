@@ -13,7 +13,7 @@ const MAX_HISTORY_SIZE = 50; // Manter últimos 50 downloads
 const wsUrl = import.meta.env.VITE_API_URL?.replace(
   "https://",
   "wss://",
-);
+)?.replace("http://", "ws://");
 if (!wsUrl) throw new Error("VITE_API_URL inválido");
 
 export function useWorkflow() {
