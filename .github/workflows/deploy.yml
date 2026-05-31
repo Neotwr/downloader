@@ -25,6 +25,10 @@ jobs:
         run: npm install
 
       - name: Gerar Build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_WORKFLOW_URL: ${{ secrets.VITE_WORKFLOW_URL }}
+          VITE_WORKFLOW_PYTHON: ${{ secrets.VITE_WORKFLOW_PYTHON }}
         run: npm run build
 
       - name: Deploy para GitHub Pages
