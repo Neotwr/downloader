@@ -13,7 +13,7 @@ const MAX_HISTORY_SIZE = 50; // Manter últimos 50 downloads
 const wsUrl = import.meta.env.VITE_API_URL?.replace(
   "https://",
   "wss://",
-)?.replace("http://", "ws://");
+);
 if (!wsUrl) throw new Error("VITE_API_URL inválido");
 
 export function useWorkflow() {
@@ -32,12 +32,9 @@ export function useWorkflow() {
   }, []);
 
   const validateEnvVars = () => {
-    const required = ["VITE_API_URL"];
-    const missing = required.filter((v) => !import.meta.env[v]);
-
-    if (missing.length > 0) {
+    if (!import.meta.env.VITE_API_URL) {
       throw new Error(
-        `❌ Variáveis de ambiente faltando: ${missing.join(", ")}`,
+        `❌ Variáveis de ambiente faltando: VITE_API_URL`,
       );
     }
   };
