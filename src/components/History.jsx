@@ -50,10 +50,7 @@ export default function History() {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/artifact/${runId}`,
         {
-          method: "GET",
-          headers: {
-            "ngrok-skip-browser-warning": "true",
-          },
+          method: "GET"
         },
       );
 

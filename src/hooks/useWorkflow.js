@@ -90,7 +90,7 @@ export function useWorkflow() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload), // Aqui está o segredo da reutilização!
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
