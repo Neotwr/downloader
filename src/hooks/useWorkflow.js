@@ -24,7 +24,6 @@ export function useWorkflow() {
   const [error, setError] = useState("");
 
   const wsRef = useRef(null);
-  const timeoutRef = useRef(null);
 
   // 2. Limpeza: se o usuário mudar de aba, fechamos o WebSocket
   useEffect(() => {
@@ -47,14 +46,7 @@ export function useWorkflow() {
     const ws = new WebSocket(`${wsUrl}/runs/${runId}`);
     wsRef.current = ws;
 
-    timeoutRef.current = setTimeout(() => {
-      setWorkflowError("Sem resposta do servidor.");
-      ws.close();
-    }, 300000);
-
     ws.onmessage = (event) => {
-      clearTimeout(timeoutRef.current);
-
       const data = JSON.parse(event.data);
       if (data.type === "status") setStatusMsg(data.message);
       if (data.type === "done") {
@@ -72,7 +64,6 @@ export function useWorkflow() {
     };
 
     ws.onerror = () => {
-      clearTimeout(timeoutRef.current);
       setWorkflowError("Erro na conexão com o servidor.");
     };
   }
@@ -118,7 +109,6 @@ export function useWorkflow() {
     setError("");
     setStatusMsg("");
     wsRef.current?.close();
-    clearTimeout(timeoutRef.current);
   }
 
   const isLoading = status === STATUS.DISPATCHING || status === STATUS.RUNNING;
