@@ -31,41 +31,44 @@ export default function History() {
   async function handleDownload(event, item, index) {
     event.preventDefault();
     setLoadingIds((prev) => new Set([...prev, index]));
-    const url = await runDownload(item.runId);
-    setLoadingIds((prev) => {
-      const next = new Set(prev);
-      next.delete(index);
-      return next;
-    });
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = item.filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+
+    try {
+      // Solicita um link novo (a URL pré-assinada expira) e repassa ao cliente
+      const url = await runDownload(item.runId);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = item.filename;
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (err) {
+      console.error(err);
+      alert(`Erro ao buscar link do arquivo: ${err.message}`);
+    } finally {
+      setLoadingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(index);
+        return next;
+      });
+    }
   }
 
   async function runDownload(runId) {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/artifact/${runId}`,
-        {
-          method: "GET"
-        },
-      );
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/artifact/${runId}`,
+      {
+        method: "GET",
+      },
+    );
 
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.message || `Erro ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      return data.url;
-    } catch (err) {
-      console.log(err);
-      return `Erro ao buscar link do arquivo: ${err.message}`;
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.message || `Erro ${response.status}`);
     }
+
+    const data = await response.json();
+    return data.url;
   }
 
   return (
