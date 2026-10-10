@@ -44,9 +44,7 @@ export function useWorkflow() {
 
   const validateEnvVars = () => {
     if (!import.meta.env.VITE_API_URL) {
-      throw new Error(
-        `❌ Variáveis de ambiente faltando: VITE_API_URL`,
-      );
+      throw new Error(`❌ Variáveis de ambiente faltando: VITE_API_URL`);
     }
   };
 
