@@ -16,6 +16,7 @@ const EXTENSAO_OPTIONS = [
   "rar",
   "7z",
 ];
+const MAX_APP_NAME_LENGTH = 30;
 
 interface FormUrlProps {
   workflowId: "URLDownload";
@@ -43,7 +44,10 @@ export default function FormUrl({ workflowId }: FormUrlProps) {
   function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.currentTarget;
     if (name !== "app_name" && name !== "app_link" && name !== "extensao") return;
-    const updatedForm = { ...form, [name]: value };
+    const nextValue = name === "app_name"
+      ? value.slice(0, MAX_APP_NAME_LENGTH)
+      : value;
+    const updatedForm = { ...form, [name]: nextValue };
     setForm(updatedForm);
     setValue(updatedForm.app_link.trim() !== "" && updatedForm.extensao !== "");
   }
@@ -134,9 +138,10 @@ export default function FormUrl({ workflowId }: FormUrlProps) {
             <input
               id="app_name"
               name="app_name"
-              className="wt-input"
+              className={`wt-input${form.app_name.length === MAX_APP_NAME_LENGTH ? " limit-reached" : ""}`}
               type="text"
               placeholder='ex: "PowerToys"'
+              maxLength={MAX_APP_NAME_LENGTH}
               value={form.app_name}
               onChange={handleChange}
               disabled={isLoading}
@@ -144,7 +149,7 @@ export default function FormUrl({ workflowId }: FormUrlProps) {
           </div>
         </div>
 
-        {previewFilename && (
+        {appLabel && (
           <div className="wt-preview">
             <span className="wt-preview-icon">📄</span>
             <span className="wt-preview-name">{previewFilename}</span>

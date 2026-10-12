@@ -94,6 +94,16 @@
     0 0 20px var(--accent-glow);
 }
 
+.wt-input.wt-input.limit-reached {
+  border-color: var(--red);
+}
+
+.wt-input.wt-input.limit-reached:focus {
+  box-shadow:
+    0 0 0 3px var(--red-bg),
+    0 0 20px var(--red-bg);
+}
+
 .wt-input:disabled,
 .wt-select:disabled {
   opacity: 0.35;

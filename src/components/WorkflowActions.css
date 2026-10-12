@@ -151,8 +151,16 @@
   font-family: var(--mono);
   color: var(--accent);
   text-decoration: none;
-  word-break: break-all;
   flex: 1;
+  min-width: 0;
+  max-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  direction: rtl;
+  word-break: break-all;
   opacity: 0.85;
   transition: opacity 0.15s;
 }
