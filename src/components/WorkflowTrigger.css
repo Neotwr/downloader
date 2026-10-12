@@ -10,11 +10,9 @@
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 1rem 1.5rem 1.5rem;
-  background: linear-gradient(
-    235deg,
-    rgba(24, 46, 245, 0.147),
-    rgba(70, 55, 86, 0.169)
-  );
+  background: linear-gradient(235deg,
+      rgba(24, 46, 245, 0.147),
+      rgba(70, 55, 86, 0.169));
   backdrop-filter: blur(12px);
 }
 
@@ -88,6 +86,7 @@
 .wt-title {
   font-size: 22px;
   font-weight: 500;
+  text-align: center;
   letter-spacing: -0.5px;
   color: var(--text-h);
   margin: 0 0 0.1rem;
@@ -105,4 +104,5 @@
   font-size: 13px;
   color: var(--text);
   margin: 0 0 1rem;
+  text-align: center;
 }

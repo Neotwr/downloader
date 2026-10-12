@@ -1,14 +1,14 @@
 import { useState } from "react";
-import FormUrl from "./FormUrl.jsx";
-import FormPython from "./FormPython.jsx";
-import History from "./History.jsx";
+import { WORKFLOW_URL, WORKFLOW_PYTHON } from "../config/env";
+import FormUrl from "./FormUrl";
+import FormPython from "./FormPython";
+import History from "./History";
 import "./WorkflowTrigger.css";
 
-const F_URL = import.meta.env.VITE_WORKFLOW_URL;
-const F_PYTHON = import.meta.env.VITE_WORKFLOW_PYTHON;
+type Mode = "url" | "python";
 
 export default function WorkflowTrigger() {
-  const [mode, setMode] = useState("url");
+  const [mode, setMode] = useState<Mode>("url");
 
   return (
     <div className="wt-wrap">
@@ -29,16 +29,16 @@ export default function WorkflowTrigger() {
         </div>
         <div className="wt-header">
           <h1 className="wt-title">
-            Download via <span className="wt-title-accent">Actions</span>
+            <span className="wt-title-accent">Download</span>
           </h1>
           <p className="wt-subtitle">
-            Dispare o workflow e receba o link de download
+            Insira o link direto de download ou o pacote Python para gerar o arquivo desejado.
           </p>
         </div>
         {mode === "url" ? (
-          <FormUrl workflowId={F_URL} />
+          <FormUrl workflowId={WORKFLOW_URL} />
         ) : (
-          <FormPython workflowId={F_PYTHON} />
+          <FormPython workflowId={WORKFLOW_PYTHON} />
         )}
       </div>
 

@@ -1,9 +1,14 @@
 import { useState } from "react";
+import type { ChangeEvent } from "react";
 import "./FormPython.css";
 import WorkflowActions from "./WorkflowActions";
 import { useWorkflow } from "../hooks/useWorkflow";
 
-export default function FormPython({ workflowId }) {
+interface FormPythonProps {
+  workflowId: "PyDownload";
+}
+
+export default function FormPython({ workflowId }: FormPythonProps) {
   const [form, setForm] = useState({ package: "" });
 
   const {
@@ -17,11 +22,11 @@ export default function FormPython({ workflowId }) {
     setWorkflowError,
   } = useWorkflow();
 
-  function handleChange(e) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    setForm({ package: e.currentTarget.value });
   }
 
-  function validate() {
+  function validate(): string | null {
     if (!form.package.trim()) return "Informe o nome da biblioteca.";
     return null;
   }

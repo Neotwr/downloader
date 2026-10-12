@@ -1,6 +1,18 @@
 import { useState } from "react";
-import { STATUS } from "../hooks/useWorkflow";
+import { STATUS } from "../types/workflow";
+import type { DownloadResult, WorkflowStatus } from "../types/workflow";
 import "./WorkflowActions.css";
+
+interface WorkflowActionsProps {
+  status: WorkflowStatus;
+  statusMsg: string;
+  result: DownloadResult | null;
+  error: string;
+  isLoading: boolean;
+  handleReset: () => void;
+  handleRun: () => Promise<void>;
+  hasValue: boolean;
+}
 
 export default function WorkflowActions({
   status,
@@ -11,7 +23,7 @@ export default function WorkflowActions({
   handleReset,
   handleRun,
   hasValue,
-}) {
+}: WorkflowActionsProps) {
   const [copied, setCopied] = useState(false);
 
   async function copyLink() {
@@ -81,7 +93,7 @@ export default function WorkflowActions({
           <div className="wt-result-link">
             <a
               href={result.url}
-              target="_blank"
+              download={result.filename}
               rel="noopener noreferrer"
               className="wt-result-url"
             >

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import type { ChangeEvent } from "react";
+import type { UrlInputs } from "../types/workflow";
 import "./FormUrl.css";
 import WorkflowActions from "./WorkflowActions";
 import { useWorkflow } from "../hooks/useWorkflow";
@@ -15,9 +17,13 @@ const EXTENSAO_OPTIONS = [
   "7z",
 ];
 
-export default function FormUrl({ workflowId }) {
+interface FormUrlProps {
+  workflowId: "URLDownload";
+}
+
+export default function FormUrl({ workflowId }: FormUrlProps) {
   const [hasValue, setValue] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<UrlInputs>({
     app_name: "",
     app_link: "",
     extensao: "",
@@ -34,13 +40,15 @@ export default function FormUrl({ workflowId }) {
     setWorkflowError,
   } = useWorkflow();
 
-  function handleChange(e) {
-    const updatedForm = { ...form, [e.target.name]: e.target.value };
+  function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const { name, value } = e.currentTarget;
+    if (name !== "app_name" && name !== "app_link" && name !== "extensao") return;
+    const updatedForm = { ...form, [name]: value };
     setForm(updatedForm);
     setValue(updatedForm.app_link.trim() !== "" && updatedForm.extensao !== "");
   }
 
-  function validate() {
+  function validate(): string | null {
     if (!form.app_link.trim()) return "Informe o link de download.";
     try {
       new URL(form.app_link.trim());

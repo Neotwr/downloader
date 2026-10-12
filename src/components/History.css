@@ -2,11 +2,9 @@
 .container.history {
   width: 85%;
   height: auto;
-  background: linear-gradient(
-    360deg,
-    rgba(24, 46, 245, 0.147),
-    rgba(70, 55, 86, 0.169)
-  );
+  background: linear-gradient(360deg,
+      rgba(24, 46, 245, 0.147),
+      rgba(70, 55, 86, 0.169));
 }
 
 a {

@@ -1,8 +1,8 @@
 # 📥 Downloader — GitHub Actions Flow Control & Monitor
 
 <p align="center">
-  <img src="https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react" alt="React 19" />
-  <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite" alt="Vite 8" />
+  <img src="https://img.shields.io/badge/React-19.3-blue?style=for-the-badge&logo=react" alt="React 19" />
+  <img src="https://img.shields.io/badge/Vite-8.3-646CFF?style=for-the-badge&logo=vite" alt="Vite 8" />
   <img src="https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?style=for-the-badge&logo=githubactions" alt="GitHub Actions" />
 </p>
 
@@ -62,7 +62,8 @@ sequenceDiagram
 ## 🛠️ Tecnologias Utilizadas
 
 ### Frontend
-*   **React 19** & **Vite 8** — Core do desenvolvimento e compilação ultra rápida.
+*   **TypeScript 7** — Tipagem estática da aplicação, verificada antes do build.
+*   **React 19.3** & **Vite 8.3** — Core do desenvolvimento e compilação ultra rápida.
 *   **Vite Plugin SVGR** — Renderização de ícones SVG como componentes React.
 *   **Vanilla CSS3** — Estilização personalizada, com efeitos modernos de Glassmorphism, feedback ativo nos botões e layout responsivo.
 
@@ -88,9 +89,9 @@ frontend/
 │   ├── components/       # Componentes modulares (Formulários, Histórico, Ações)
 │   ├── hooks/            # Custom Hook (useWorkflow) para estado do WebSocket e API
 │   ├── index.css         # Design system e tokens CSS Globais
-│   └── main.jsx          # Ponto de entrada do React
+│   └── main.tsx          # Ponto de entrada do React
 ├── index.html            # Estrutura HTML base
-├── vite.config.js        # Configuração do Vite
+├── vite.config.ts        # Configuração do Vite
 └── package.json          # Dependências do cliente
 ```
 
@@ -102,8 +103,8 @@ Crie um arquivo `.env` na raiz da pasta `frontend/` com base nas variáveis abai
 
 ```env
 VITE_API_URL=http://localhost:3000
-VITE_WORKFLOW_URL=urldownload
-VITE_WORKFLOW_PYTHON=pydownload
+VITE_WORKFLOW_URL=URLDownload
+VITE_WORKFLOW_PYTHON=PyDownload
 ```
 
 ---
@@ -111,7 +112,7 @@ VITE_WORKFLOW_PYTHON=pydownload
 ## 💻 Como Executar Localmente
 
 ### Pré-requisitos
-Certifique-se de ter o [Node.js](https://nodejs.org/) instalado. Para o correto funcionamento em tempo real, o backend correspondente deve estar ativo.
+Use [Node.js 26.11.1](https://nodejs.org/), conforme `.nvmrc` e o CI. Com nvm, execute `nvm install` e `nvm use` na raiz do projeto. Para o correto funcionamento em tempo real, o backend correspondente deve estar ativo.
 
 ### Passo a Passo
 1. Instale as dependências:
@@ -126,6 +127,16 @@ Certifique-se de ter o [Node.js](https://nodejs.org/) instalado. Para o correto 
 
 ---
 
+## Verificação do código
+
+```bash
+npm run typecheck  # TypeScript 7: verifica tipos sem emitir JS
+npm run lint       # ESLint: regras de TypeScript e React
+npm run build      # Checagem de tipos, lint e bundle de produção
+```
+
+O Vite gera o JavaScript final. O compilador TS7 usa o alias `@typescript/native`; o pacote `typescript` fornece a API TS6 de compatibilidade usada pelo ESLint.
+
 ## 🚀 Implantação e Deploy (GitHub Pages)
 
 O projeto já conta com o workflow do GitHub Actions em `.github/workflows/deploy.yml` configurado para automatizar o deploy.
@@ -134,8 +145,8 @@ Para configurá-lo:
 1. Vá nas configurações do seu repositório GitHub em **Settings** > **Secrets and variables** > **Actions**.
 2. Adicione as seguintes **Repository Secrets**:
    * `VITE_API_URL`: A URL de produção da sua API (ex: `https://sua-api.onrender.com`).
-   * `VITE_WORKFLOW_URL`: `urldownload`
-   * `VITE_WORKFLOW_PYTHON`: `pydownload`
+   * `VITE_WORKFLOW_URL`: `URLDownload`
+   * `VITE_WORKFLOW_PYTHON`: `PyDownload`
 3. Vá em **Settings** > **Actions** > **General** > **Workflow permissions** e certifique-se de que a permissão de escrita está ativa (**Read and write permissions**).
 4. Faça um push para a branch `main`. O GitHub Actions irá compilar o build e enviar automaticamente para a branch `gh-pages`.
 
