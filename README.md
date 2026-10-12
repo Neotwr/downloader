@@ -1,12 +1,13 @@
 # 📥 Downloader — GitHub Actions Flow Control & Monitor
 
 <p align="center">
-  <img src="https://img.shields.io/badge/React-19.3-blue?style=for-the-badge&logo=react" alt="React 19" />
-  <img src="https://img.shields.io/badge/Vite-8.3-646CFF?style=for-the-badge&logo=vite" alt="Vite 8" />
+  <img src="https://img.shields.io/badge/TypeScript-7.0-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript 7" />
+  <img src="https://img.shields.io/badge/React-19.3-blue?style=for-the-badge&logo=react" alt="React 19.3" />
+  <img src="https://img.shields.io/badge/Vite-8.3-646CFF?style=for-the-badge&logo=vite" alt="Vite 8.3" />
   <img src="https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?style=for-the-badge&logo=githubactions" alt="GitHub Actions" />
 </p>
 
-Este projeto é a interface visual (**frontend**) e a suíte de workflows de automação de um ecossistema full-stack de download remoto. Ele permite que o usuário gerencie, dispare e monitore downloads executados diretamente na infraestrutura do **GitHub Actions** em tempo real.
+Este projeto é a interface visual (**frontend**), construída com **React e TypeScript 7**, e a suíte de workflows de automação de um ecossistema full-stack de download remoto. Ele permite que o usuário gerencie, dispare e monitore downloads executados diretamente na infraestrutura do **GitHub Actions** em tempo real.
 
 ---
 
@@ -43,7 +44,7 @@ sequenceDiagram
     Back->>GH_API: Requisita URL temporária do artefato gerado
     GH_API-->>Back: Retorna URL segura e direta
     Back->>Front: Transmite conclusão e URL via WebSocket { type: "done", downloadUrl, filename }
-    Front->>User: Exibe botão de Download, toca som/aviso e salva no Histórico
+    Front->>User: Exibe link de download e salva no Histórico
 ```
 
 ---
@@ -52,7 +53,7 @@ sequenceDiagram
 
 *   🚀 **Download via URL Direta**: Baixe qualquer arquivo da internet direto pela infraestrutura do GitHub Actions (extensões como `.exe`, `.msi`, `.zip`, `.rar`, etc.). O link final é servido de forma compactada.
 *   🐍 **Download offline de Dependências Python**: Especifique uma ou múltiplas bibliotecas Python (ex: `pandas selenium numpy`). O GitHub runner compila/baixa as wheels compatíveis com `win_amd64` e disponibiliza tudo em um único `.zip`.
-*   📦 **WinGet**: Suporte para download e pesquisa de aplicativos no catálogo oficial do Windows Package Manager (WinGet), gerando instaladores limpos de forma autônoma.
+*   📦 **Workflows WinGet**: Automações de download e pesquisa de aplicativos no catálogo do Windows Package Manager. A interface atual oferece os modos URL e Python.
 *   ⚡ **Monitoramento em Tempo Real (WebSockets)**: A interface avisa em tempo real se o download está disparando, aguardando execução, buscando artefato, finalizado ou se ocorreu algum erro.
 *   ⏳ **Histórico de Downloads**: Histórico de downloads persistido localmente no navegador (`localStorage`).
 *   🎨 **Interface Premium e Moderna**: UI responsiva construída em React, contendo tratamentos robustos de erros (`ErrorBoundary`), validações de campos e feedback tátil por meio de animações.
@@ -62,12 +63,14 @@ sequenceDiagram
 ## 🛠️ Tecnologias Utilizadas
 
 ### Frontend
-*   **TypeScript 7** — Tipagem estática da aplicação, verificada antes do build.
-*   **React 19.3** & **Vite 8.3** — Core do desenvolvimento e compilação ultra rápida.
-*   **Vite Plugin SVGR** — Renderização de ícones SVG como componentes React.
+*   **TypeScript 7.0.2** — Tipagem estrita dos componentes, hooks e contratos de comunicação, verificada antes do build.
+*   **React 19.3.0** & **Vite 8.3.4** — Interface, servidor de desenvolvimento e geração do bundle de produção.
+*   **ESLint 10.12.0** & **typescript-eslint 8.71.2** — Análise estática de TypeScript e regras de React.
+*   **Vite Plugin SVGR 5.2.0** — Renderização de ícones SVG como componentes React.
 *   **Vanilla CSS3** — Estilização personalizada, com efeitos modernos de Glassmorphism, feedback ativo nos botões e layout responsivo.
 
 ### Infraestrutura & CI/CD
+*   **Node.js 26.11.1** — Ambiente de desenvolvimento e build definido em `.nvmrc`.
 *   **GitHub Actions** — Automação dos downloads em runners virtuais Windows e deploy contínuo do frontend.
 *   **GitHub Pages** — Hospedagem serverless do frontend compilado.
 
@@ -86,11 +89,19 @@ frontend/
 ├── public/               # Recursos estáticos públicos
 ├── src/
 │   ├── assets/           # Arquivos estáticos e mídias
-│   ├── components/       # Componentes modulares (Formulários, Histórico, Ações)
-│   ├── hooks/            # Custom Hook (useWorkflow) para estado do WebSocket e API
+│   ├── components/       # Componentes React em .tsx (formulários, histórico, ações)
+│   ├── config/env.ts     # Validação das variáveis de ambiente e URLs HTTP/WebSocket
+│   ├── hooks/useWorkflow.ts # Estado, execução via API e monitoramento WebSocket
+│   ├── types/workflow.ts # Contratos de payloads, mensagens, resultados e histórico
+│   ├── utils/            # Validação dos dados externos e persistência do histórico
+│   ├── vite-env.d.ts     # Tipos das variáveis de ambiente do Vite
 │   ├── index.css         # Design system e tokens CSS Globais
 │   └── main.tsx          # Ponto de entrada do React
 ├── index.html            # Estrutura HTML base
+├── .nvmrc                # Versão do Node usada localmente e no CI
+├── eslint.config.js      # Regras de lint para TypeScript e React
+├── tsconfig.json         # Checagem da aplicação (DOM, JSX, noEmit)
+├── tsconfig.node.json    # Checagem da configuração do Vite (Node, noEmit)
 ├── vite.config.ts        # Configuração do Vite
 └── package.json          # Dependências do cliente
 ```
@@ -107,6 +118,10 @@ VITE_WORKFLOW_URL=URLDownload
 VITE_WORKFLOW_PYTHON=PyDownload
 ```
 
+Você também pode copiar `.env.example` para `.env`. Os nomes `URLDownload` e `PyDownload` são os identificadores lógicos aceitos pelo backend; os IDs reais dos workflows são resolvidos pelo servidor. Em produção, use o endereço HTTPS público da API.
+
+As variáveis são validadas na inicialização. O Vite incorpora seus valores ao bundle durante o build; alterar a configuração de produção exige gerar e publicar um novo build.
+
 ---
 
 ## 💻 Como Executar Localmente
@@ -117,7 +132,7 @@ Use [Node.js 26.11.1](https://nodejs.org/), conforme `.nvmrc` e o CI. Com nvm, e
 ### Passo a Passo
 1. Instale as dependências:
    ```bash
-   npm install
+   npm ci
    ```
 2. Inicie o servidor de desenvolvimento do Vite:
    ```bash
@@ -133,9 +148,12 @@ Use [Node.js 26.11.1](https://nodejs.org/), conforme `.nvmrc` e o CI. Com nvm, e
 npm run typecheck  # TypeScript 7: verifica tipos sem emitir JS
 npm run lint       # ESLint: regras de TypeScript e React
 npm run build      # Checagem de tipos, lint e bundle de produção
+npm run preview    # Serve localmente o build já gerado em dist/
 ```
 
 O Vite gera o JavaScript final. O compilador TS7 usa o alias `@typescript/native`; o pacote `typescript` fornece a API TS6 de compatibilidade usada pelo ESLint.
+
+`npm run typecheck` verifica tanto a aplicação quanto `vite.config.ts`, com configurações separadas para navegador e Node. Componentes usam `.tsx`, e hooks e utilitários usam `.ts`. Os dados recebidos da API, do WebSocket e do histórico são validados em execução, além dos contratos estáticos.
 
 ## 🚀 Implantação e Deploy (GitHub Pages)
 
@@ -147,8 +165,11 @@ Para configurá-lo:
    * `VITE_API_URL`: A URL de produção da sua API (ex: `https://sua-api.onrender.com`).
    * `VITE_WORKFLOW_URL`: `URLDownload`
    * `VITE_WORKFLOW_PYTHON`: `PyDownload`
-3. Vá em **Settings** > **Actions** > **General** > **Workflow permissions** e certifique-se de que a permissão de escrita está ativa (**Read and write permissions**).
-4. Faça um push para a branch `main`. O GitHub Actions irá compilar o build e enviar automaticamente para a branch `gh-pages`.
+3. Em **Settings** > **Pages**, configure **Source: Deploy from a branch**, branch **`gh-pages`** e pasta **`/(root)`**, conforme o modelo de publicação deste projeto.
+4. Integre a branch de migração à `main`. O workflow de deploy é disparado por pushes na `main`; pushes apenas em `migrate/frontend-ts7` não publicam o site.
+5. Confira a execução **Deploy Frontend to GitHub Pages** na aba **Actions**.
+
+O workflow instala o Node definido em `.nvmrc`, executa `npm ci` e `npm run build`, e publica o conteúdo de `dist/` na branch `gh-pages`. A permissão `contents: write` já está declarada no workflow. O GitHub Pages recebe HTML, CSS e JavaScript compilados, sem precisar executar TypeScript.
 
 ---
 
